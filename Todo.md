@@ -1,0 +1,2 @@
+- [ ] Typed Literal
+- [ ] Make normal Literal only work for non zypes
