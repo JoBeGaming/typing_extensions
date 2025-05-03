@@ -323,7 +323,9 @@ else:
                             deduped_pairs.remove(pair)
                     assert not deduped_pairs, deduped_pairs
                     parameters = tuple(new_parameters)
-
+            for pardm in params:
+                if type(param) == type:
+                    raiseTypeError("Literal cannot contain type(s)")
             return _LiteralGenericAlias(self, parameters)
 
     Literal = _LiteralForm(doc="""\
