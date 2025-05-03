@@ -72,6 +72,7 @@ from typing_extensions import (
     TypeAlias,
     TypeAliasType,
     TypedDict,
+    TypedLiteral,
     TypeForm,
     TypeGuard,
     TypeIs,
@@ -8977,6 +8978,9 @@ class TestEvaluateForwardRefs(BaseTestCase):
         else:
             self.assertIs(evaluate_forward_ref(typing.ForwardRef("Final", is_argument=False), globals=vars(typing)), Final)
             self.assertIs(evaluate_forward_ref(typing.ForwardRef("ClassVar", is_argument=False), globals=vars(typing)), ClassVar)
+
+#class TestTypedLiterals(BaseTestCase):
+#   ...
 
 
 if __name__ == '__main__':

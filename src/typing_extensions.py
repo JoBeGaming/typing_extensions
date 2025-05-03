@@ -323,9 +323,9 @@ else:
                             deduped_pairs.remove(pair)
                     assert not deduped_pairs, deduped_pairs
                     parameters = tuple(new_parameters)
-            for param in params:
+            for param in parameters:
                 if type(param) == type:
-                    raiseTypeError("Literal cannot contain type(s)")
+                    raise TypeError("Literal cannot contain type(s)")
             return _LiteralGenericAlias(self, parameters)
 
     Literal = _LiteralForm(doc="""\
@@ -338,8 +338,79 @@ else:
                            The type checker understands that 'var' is literally equal to
                            the value 4 and no other value.
 
-                           Literal[...] cannot be subclassed.""")
+                           Literal[...] cannot be subclassed. Literals can only contain 
+                           values, and if a type is found, a TypeError gets raised.""")
 
+PEP_000_IMPLEMENTED = False
+
+if PEP_000_IMPLEMENTED:
+    TypedLiteral = typing.TypedLiteral
+else:
+    def _flatten_typed_literal_params(parameters):
+        """An internal helper for TypedLiteral creation: flatten TypedLiterals among parameters"""
+        params = []
+        for p in parameters:
+            if isinstance(p, _TypedLiteralGenericAlias):
+                params.extend(p.__args__)
+            else:
+                params.append(p)
+        return tuple(params)
+    class _TypedLiteralGenericAlias(typing._GenericAlias, _root=True):
+        def __eq__(self, other):
+            if not isinstance(other, _TypedLiteralGenericAlias):
+                return NotImplemented
+            these_args_deduped = set(self.__args__)
+            other_args_deduped = set(other.__args__)
+            return these_args_deduped == other_args_deduped
+
+        def __hash__(self):
+            return hash(frozenset(self.__args__))
+
+    class _TypedLiteralForm(_ExtensionsSpecialForm, _root=True):
+        def __init__(self, doc: str):
+            self._name = 'Literal'
+            self._doc = self.__doc__ = doc
+
+        def __getitem__(self, parameters):
+            if not isinstance(parameters, tuple):
+                parameters = (parameters,)
+
+            parameters = _flatten_typed_literal_params(parameters)
+
+            vals = list(parameters)
+            try:
+                deduped_pairs = set(vals)
+            except TypeError:
+                # unhashable parameters
+                pass
+            else:
+                # similar logic to typing._deduplicate on Python 3.9+
+                if len(deduped_pairs) < len(vals):
+                    new_parameters = []
+                    for pair in vals:
+                        if pair in deduped_pairs:
+                            new_parameters.append(pair)
+                            deduped_pairs.remove(pair)
+                    assert not deduped_pairs, deduped_pairs
+                    parameters = tuple(new_parameters)
+            for param in parameters:
+                if type(param) != type:
+                    raise TypeError("TypedLiteral must only contain type")
+            return _TypedLiteralGenericAlias(self, parameters)
+
+    TypedLiteral = _TypedLiteralForm(doc="""\
+                           A type that can be used to indicate to type checkers
+                           that the corresponding value has a value literally equivalent
+                           to the provided type, as a parameter. For example:
+
+                               var: Literal[int] = int
+
+                           The type checker understands that 'var' is literally equal to
+                           the value 'int' and no other value.
+
+                           TypedLiteral[...] cannot be subclassed. TYpedLiterals can only contain 
+                           values, and if a value that is not a type is found, 
+                           a TypeError gets raised.""")
 
 _overload_dummy = typing._overload_dummy
 
