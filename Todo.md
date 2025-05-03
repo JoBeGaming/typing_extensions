@@ -1,2 +1,3 @@
 - [ ] Typed Literal
-- [ ] Make normal Literal only work for non zypes
+- [x] Make normal Literal only work for non types
+- [ ] Test normal non-typed Literal
