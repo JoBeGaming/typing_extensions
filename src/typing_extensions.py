@@ -203,7 +203,7 @@ else:
     class Any(metaclass=_AnyMeta):
         """Special type indicating an unconstrained type.
         - Any is compatible with every type.
-        - Any assumed to have all methods.
+        - Any is assumed to have all methods.
         - All values assumed to be instances of Any.
         Note that all the above statements are true from the point of view of
         static type checkers. At runtime, Any should not be used with instance
@@ -1696,7 +1696,7 @@ else:
         type checkers.  They are used to forward the parameter types of one
         callable to another callable, a pattern commonly found in higher order
         functions and decorators.  They are only valid when used in ``Concatenate``,
-        or s the first argument to ``Callable``. In Python 3.10 and higher,
+        or as the first argument to ``Callable``. In Python 3.10 and higher,
         they are also supported in user-defined Generics at runtime.
         See class Generic for more information on generic types.  An
         example for annotating a decorator::
