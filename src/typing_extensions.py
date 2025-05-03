@@ -156,12 +156,12 @@ _FORWARD_REF_HAS_CLASS = "__forward_is_class__" in typing.ForwardRef.__slots__
 # They are needed by _ProtocolMeta and they provide support for PEP 646.
 
 
-class _Sentinel:
+class _marker:
     def __repr__(self):
         return "<sentinel>"
 
 
-_marker = _Sentinel()
+_marker = _marker()
 
 
 if sys.version_info >= (3, 10):
@@ -323,7 +323,7 @@ else:
                             deduped_pairs.remove(pair)
                     assert not deduped_pairs, deduped_pairs
                     parameters = tuple(new_parameters)
-            for pardm in params:
+            for param in params:
                 if type(param) == type:
                     raiseTypeError("Literal cannot contain type(s)")
             return _LiteralGenericAlias(self, parameters)
