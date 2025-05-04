@@ -95,6 +95,7 @@ __all__ = [
     'TypeForm',
     'TypeGuard',
     'TypeIs',
+    'TypedLiteral',
     'TYPE_CHECKING',
     'Never',
     'NoReturn',
