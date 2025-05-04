@@ -395,8 +395,9 @@ else:
                     assert not deduped_pairs, deduped_pairs
                     parameters = tuple(new_parameters)
             for param in parameters:
+                # TODO: Use `_type_check` or whatever it's called
                 if type(param) != type:
-                    raise TypeError("TypedLiteral must only contain type")
+                    raise TypeError("TypedLiteral must only contain types")
             return _TypedLiteralGenericAlias(self, parameters)
 
     TypedLiteral = _TypedLiteralForm(doc="""\
@@ -409,7 +410,7 @@ else:
                            The type checker understands that 'var' is literally equal to
                            the value 'int' and no other value.
 
-                           TypedLiteral[...] cannot be subclassed. TYpedLiterals can only contain 
+                           TypedLiteral[...] cannot be subclassed. TypedLiterals can only contain 
                            values, and if a value that is not a type is found, 
                            a TypeError gets raised.""")
 
