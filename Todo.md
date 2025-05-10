@@ -4,4 +4,4 @@
 - [ ] Test TypedLiteral
 - [ ] Make TypedLiteral work with isinstance: `isinstance(x, TypedLiteral[int, float]`
 - [ ] TODO PEP this: `x = tuple[int | str, ...]`
-
+- [ ] Make TypeVArTuple accept bound types, and len?!
