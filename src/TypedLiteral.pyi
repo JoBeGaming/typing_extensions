@@ -1,0 +1,1 @@
+type TypedLiteral[T] = type

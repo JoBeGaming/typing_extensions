@@ -356,6 +356,7 @@ else:
             else:
                 params.append(p)
         return tuple(params)
+
     class _TypedLiteralGenericAlias(typing._GenericAlias, _root=True):
         def __eq__(self, other):
             if not isinstance(other, _TypedLiteralGenericAlias):
@@ -4210,7 +4211,7 @@ else:
                 type_,
                 globals=globals,
                 locals=locals,
-                 type_params=type_params, owner=owner,
+                type_params=type_params, owner=owner,
                 _recursive_guard=_recursive_guard, format=format
             )
         if sys.version_info < (3, 12, 5) and type_params:
