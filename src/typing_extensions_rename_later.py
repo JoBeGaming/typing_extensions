@@ -151,7 +151,7 @@ GenericMeta = type
 _PEP_696_IMPLEMENTED = sys.version_info >= (3, 13, 0, "beta")
 
 # Added with bpo-45166 to 3.10.1+ and some 3.9 versions
-_FORWARD_REF_HAS_CLASS = "__forward_is_class__" in typing.ForwardRef.__slots__
+_FORWARD_REF_HAS_CLASS = "__forward_is_class__" in typing.ForwardRef.__slots__ #TODO fix with PR to typing.pyi
 
 # The functions below are modified copies of typing internal helpers.
 # They are needed by _ProtocolMeta and they provide support for PEP 646.
@@ -1460,7 +1460,7 @@ else:  # <=3.13
             return
         original_hints = obj.__annotations__
         for name, value in hints.items():
-            # Not a Union[..., None] or replacement conditions not fullfilled
+            # Not a Union[..., None] or replacement conditions not fulfilled
             if (not _could_be_inserted_optional(value)
                 or name not in defaults
                 or defaults[name] is not None
